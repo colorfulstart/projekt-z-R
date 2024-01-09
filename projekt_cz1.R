@@ -43,8 +43,8 @@ dane_wiek$CAR_KlWiekY <- as.integer(dane_wiek$CAR_KlWiekY/12)
 # (5) Usunięcie NA
 dane_wiek <- subset(dane_wiek, !is.na(CAR_KlWiekY))
 
-# (6) Usunięcie klientów, których wiek jest <18 i >90
-dane_wiek <- subset(dane_wiek, CAR_KlWiekY >= 18 & CAR_KlWiekY <= 90)
+# (6) Usunięcie klientów, których wiek jest <18 i >85
+dane_wiek <- subset(dane_wiek, CAR_KlWiekY >= 18 & CAR_KlWiekY <= 85)
 
 dane <- dane_wiek
 
