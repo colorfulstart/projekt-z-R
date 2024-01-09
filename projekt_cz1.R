@@ -16,7 +16,8 @@ dane_oryg <- dane
 dane1 <- subset(dane, select = -c(BIK_BANKLiczbaZap2_11m, BIK_PSNLiczbaZap11m, BIK_BANKSaldoNalWymagKred, BIK_PSNNajgorszyHistStatusKred,
                                   CAR_SredLiczbaDniPrzekLim13_24m, CAR_SredLiczbaDniPrzekLim12m, CAR_SredWykOV1m, CAR_LiczbaTrans30dni,
                                   CAR_SredLiczbaDniPrzeterm6m, CAR_WartAktywow, CAR_KwPrzetermDzis, CAR_LiczbaDniDecNegKred, EBANK_MinKwPrzelBBC,
-                                  TRANS_LiczbaTransOplUrzad, TRANS_LiczbaTransWyplZewn))
+                                  TRANS_LiczbaTransOplUrzad, TRANS_LiczbaTransWyplZewn, TRANS_LiczbaTransUruchomKred, CAR_KwMaxPrzekrLimOV, 
+                                  CAR_SumaWplywowOczyszcz1m))
 
 colnames(dane1)
 
