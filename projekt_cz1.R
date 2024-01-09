@@ -100,3 +100,5 @@ dane$Wielk_zatr_kat <- ifelse(dane$WIELKOSC_ZATRUD == "[0 ; 3]", 1,
                                      ifelse(dane$WIELKOSC_ZATRUD == "[30 ; 59]", 3,
                                             ifelse(dane$WIELKOSC_ZATRUD == "[60 ; 119]", 4, 5))))
 
+#usuwanie kolumn które zostały przekształone na inne (Dochod i WIELKOSC_ZATRUD)
+dane <- subset(dane, select = -c(Dochod, WIELKOSC_ZATRUD))
