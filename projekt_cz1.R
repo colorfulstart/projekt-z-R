@@ -13,15 +13,13 @@ dane_oryg <- dane
 ### OCZYSZCZANIE DANYCH ### 
 
 #Usuwam kolumny, których nie będziemy uwzględniały w analizie
-dane1 <- subset(dane, select = -c(BIK_BANKLiczbaZap2_11m, BIK_PSNLiczbaZap11m, BIK_BANKSaldoNalWymagKred, BIK_PSNNajgorszyHistStatusKred,
+dane <- subset(dane, select = -c(BIK_BANKLiczbaZap2_11m, BIK_PSNLiczbaZap11m, BIK_BANKSaldoNalWymagKred, BIK_PSNNajgorszyHistStatusKred,
                                   CAR_SredLiczbaDniPrzekLim13_24m, CAR_SredLiczbaDniPrzekLim12m, CAR_SredWykOV1m, CAR_LiczbaTrans30dni,
                                   CAR_SredLiczbaDniPrzeterm6m, CAR_WartAktywow, CAR_KwPrzetermDzis, CAR_LiczbaDniDecNegKred, EBANK_MinKwPrzelBBC,
                                   TRANS_LiczbaTransOplUrzad, TRANS_LiczbaTransWyplZewn, TRANS_LiczbaTransUruchomKred, CAR_KwMaxPrzekrLimOV, 
                                   CAR_SumaWplywowOczyszcz1m))
 
-colnames(dane1)
-
-dane <- dane1
+colnames(dane)
 
 # Oczyszczenie kolumn dotyczących wieku
 # Zamiana notacji wykładniczej na l. całkowite
@@ -83,12 +81,12 @@ max(dane$Dochod)
 median(dane$Dochod)
 
 kwantyle <- quantile(dane$Dochod, probs = seq(0.2, 1, by = 0.2))
-przedzialy_kwotowe <- c(-1, 2800, 3800, 4700, 9800, Inf) #przybliżam do pełnych, "ładnych" kwot :)
+przedzialy_kwotowe <- c(-1, 2800, 3800, 4700, 9800, 20000, Inf) #przybliżam do pełnych, "ładnych" kwot :)
 
 # Tworzenie kategorii dochodu na podstawie przedziałów
-X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c(1, 2, 3, 4, 5))
+X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c(1, 2, 3, 4, 5, 6))
 
-# Stopnie dochodu: "0-2800", "2800-3800", "3800-4700", "4700-9800", "9800+"
+# Stopnie dochodu: 1 - "0-2800", 2 - "2800-3800", 3 - "3800-4700", 4 - "4700-9800", 5 - "9800-20000", 6 - "20000+"
 
 dane$Dochod_kat <- X
 
@@ -100,5 +98,21 @@ dane$Wielk_zatr_kat <- ifelse(dane$WIELKOSC_ZATRUD == "[0 ; 3]", 1,
                                      ifelse(dane$WIELKOSC_ZATRUD == "[30 ; 59]", 3,
                                             ifelse(dane$WIELKOSC_ZATRUD == "[60 ; 119]", 4, 5))))
 
+# Wnioskowana kwota - przedziały i kategorie
+min(dane$WNIOSKOWANA_KWOTA)
+max(dane$WNIOSKOWANA_KWOTA)
+median(dane$WNIOSKOWANA_KWOTA)
+
+kwantyle <- quantile(dane$WNIOSKOWANA_KWOTA, probs = seq(0.2, 1, by = 0.2))
+przedzialy_kwotowe <- c(-1, kwantyle[-length(kwantyle)], Inf) 
+
+X <- cut(dane$WNIOSKOWANA_KWOTA, przedzialy_kwotowe, labels = c(1, 2, 3, 4, 5))
+
+# Stopnie: 1 - "0-3000", 2 - "3000-5000", 3 - "5000-10100", 4 - "10100-26000", 5 - "26000+
+
+dane$Wnioskowana_kw_kat <- X
+
+
 #usuwanie kolumn które zostały przekształone na inne (Dochod i WIELKOSC_ZATRUD)
 dane <- subset(dane, select = -c(Dochod, WIELKOSC_ZATRUD))
+
