@@ -116,3 +116,31 @@ dane$Wnioskowana_kw_kat <- X
 #usuwanie kolumn które zostały przekształone na inne (Dochod i WIELKOSC_ZATRUD)
 dane <- subset(dane, select = -c(Dochod, WIELKOSC_ZATRUD))
 
+
+
+
+### PODZIAŁ NA PRÓBY TEST I TRAIN ### 
+
+kolumny_do_przekształcenia <- 2:ncol(dane)
+dane[, kolumny_do_przekształcenia] <- lapply(dane[, kolumny_do_przekształcenia], as.factor)
+str(dane)
+
+# Podział na próby train, test
+set.seed(100000) 
+rozmiar = 0.7 #może będzie można wybrać w aplikacji i zobaczyć, jak zmienia się model?
+smp = floor(rozmiar * nrow(dane))
+ind = sample(seq_len(nrow(dane)), size = smp)
+
+proba_train = dane[ind,]
+proba_test = dane[-ind,]
+
+#Statystyki WOE i IV 
+library(woeBinning)
+
+bucket = woe.binning(proba_train, 'DEFAULT', proba_train, stop.limit = 0, min.perc.total = 0.1)
+
+#tak sprawdzić IV: 
+#bucket[,3] Total IV
+#woe.binning.table(bucket)[1]
+
+
