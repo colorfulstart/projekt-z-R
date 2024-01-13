@@ -144,3 +144,49 @@ bucket = woe.binning(proba_train, 'DEFAULT', proba_train, stop.limit = 0, min.pe
 #woe.binning.table(bucket)[1]
 
 
+
+
+### BUDOWA MODELU ###
+
+proba_train_2 = woe.binning.deploy(proba_train, bucket, add.woe.or.dum.var = 'woe')
+proba_test_2 = woe.binning.deploy(proba_test, bucket, add.woe.or.dum.var = 'woe')
+
+#Zmiana wagi defaulta: z 1 na 10, z 0 na 1
+#unique(proba_train_2$DEFAULT)
+def_waga <- as.numeric(recode(proba_train_2$DEFAULT, "0" = 1, "1" = 10))
+
+colnames(proba_train_2) #chcemy te kolumny, które mają nazwy postaci "woe.XXXXXXXX.binned"
+
+
+# Residual Deviance to miara oceny dopasowania modelu do danych
+# Im mniejsza wartość Residual Deviance, tym lepiej model pasuje do danych. 
+
+# AIC (Akaike Information Criterion) to miara oceny jakości modelu statystycznego. 
+# Niższa wartość AIC wskazuje na lepszą jakość modelu.
+
+# 1) 10 najistotniejszych w bucket (l.142)
+IV_max_10 <- bucket[1:10, ]
+zmienne_objasniajace <- paste("woe.", IV_max_10[,1], ".binned", sep = "")
+
+model_max = glm(DEFAULT ~ ., 
+                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
+
+summary(model_max)
+summary(model_max)$deviance
+summary(model_max)$aic
+
+# 2) 10 najmniej istotnych 
+IV_min_10 <- bucket[(length(bucket[,1])-9):length(bucket[,1]), ]
+zmienne_objasniajace <- paste("woe.", IV_min_10[,1], ".binned", sep = "")
+
+model_min = glm(DEFAULT ~ ., 
+                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
+
+summary(model_min)
+summary(model_min)$deviance
+summary(model_min)$aic
+
+
+# 3) wybór użytkownika
+
+
