@@ -191,8 +191,27 @@ summary(model_min)
 summary(model_min)$deviance
 summary(model_min)$aic
 
+# 3) 10 losowych zmiennych 
 
-# 3) wybór użytkownika
+# Mniej więcej taka funkcja ogólnie do tworzenia modelu: 
+buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to wektor nazw kolumn
+  zmienne_objasniajace <- paste("woe.", wybrane_kolumny, ".binned", sep = "")
+  model = glm(DEFAULT ~ ., 
+              data = dane_train[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = waga)
+  
+}
+
+losowe_kolumny <- sample(bucket[, 1], 10)
+
+model_random <- buduj_model(proba_train_2, losowe_kolumny, def_waga)
+summary(model_random)$deviance
+summary(model_random)$aic
+
+
+# 4) wybór użytkownika
+
+# np:
+model_uzytkownika <- buduj_model(proba_train_2, c("TYP_PRACODAWCY", "ZAWOD_WYKONYWANY", "SEKTOR"), def_waga)
 
 
 # GINI, AUC, ROC
@@ -226,3 +245,5 @@ rysuj_ROC <- function(rzeczywiste_wart, model){
 
 rysuj_ROC(proba_train_2$DEFAULT, model_max)
 rysuj_ROC(proba_train_2$DEFAULT, model_min)
+rysuj_ROC(proba_train_2$DEFAULT, model_random)
+rysuj_ROC(proba_train_2$DEFAULT, model_uzytkownika)
