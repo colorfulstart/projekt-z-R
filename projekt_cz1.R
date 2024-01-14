@@ -116,7 +116,13 @@ dane$Wnioskowana_kw_kat <- X
 #usuwanie kolumn które zostały przekształone na inne (Dochod i WIELKOSC_ZATRUD)
 dane <- subset(dane, select = -c(Dochod, WIELKOSC_ZATRUD))
 
+# Usunięcie kolumn, gdzie jest najwięcej NA
 
+ilosc_NA <- colSums(is.na(dane[,17:ncol(dane)])) #wcześniej oczyszczone
+
+kolumny_z_NA <- names(sort(ilosc_NA, decreasing=TRUE))[1:5] #Sortowanie wyników i wybieranie nazw 5 kolumn z największą ilością NA
+
+dane <- dane[, -which(names(dane) %in% kolumny_z_NA)] #Usunięcie tych 5 kolumn 
 
 
 ### PODZIAŁ NA PRÓBY TEST I TRAIN ### 
