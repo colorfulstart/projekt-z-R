@@ -194,3 +194,35 @@ summary(model_min)$aic
 
 # 3) wybór użytkownika
 
+
+
+# GINI, AUC, ROC
+
+#Im wyżej znajduje się krzywa ROC, tym lepszy model.
+#Im większe AUC i Gini, tym lepsza zdolność modelu do rozróżniania klas.
+
+library(randomForest)
+library(pROC)
+library(ggplot2)
+
+model <- model_max
+
+prawdopodobienstwa <- predict(model, type = "response")
+roc_curve <- roc(proba_train_2$DEFAULT, prawdopodobienstwa)
+roc_data <- coords(roc_curve, "all")
+
+auc_value <- auc(roc_curve)
+gini_value <- 2 * auc_value - 1
+
+ggplot(data = roc_data, aes(x = 1 - specificity, y = sensitivity)) +
+  geom_line(color = "red") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "gray") +
+  labs(x = "False Positive Rate (1 - Specificity)",
+       y = "True Positive Rate (Sensitivity)",
+       title = "Krzywa ROC") +
+  annotate("text", x = 0.95, y = 0.05,
+           label = paste("AUC =", round(auc_value, 3), ", Gini =", round(gini_value, 3)),
+           color = "black", size = 5, hjust = 1, vjust = 0) +
+  theme_minimal()
+
+
