@@ -127,7 +127,7 @@ str(dane)
 
 # Podział na próby train, test
 set.seed(100000) 
-rozmiar = 0.7 #może będzie można wybrać w aplikacji i zobaczyć, jak zmienia się model?
+rozmiar = 0.7
 smp = floor(rozmiar * nrow(dane))
 ind = sample(seq_len(nrow(dane)), size = smp)
 
@@ -152,8 +152,7 @@ proba_train_2 = woe.binning.deploy(proba_train, bucket, add.woe.or.dum.var = 'wo
 proba_test_2 = woe.binning.deploy(proba_test, bucket, add.woe.or.dum.var = 'woe')
 
 #Zmiana wagi defaulta: z 1 na 10, z 0 na 1
-#unique(proba_train_2$DEFAULT)
-def_waga <- as.numeric(recode(proba_train_2$DEFAULT, "0" = 1, "1" = 10))
+def_waga <- ifelse(as.numeric(proba_train_2$DEFAULT) == 0, 1, 10)
 
 colnames(proba_train_2) #chcemy te kolumny, które mają nazwy postaci "woe.XXXXXXXX.binned"
 
@@ -164,7 +163,7 @@ colnames(proba_train_2) #chcemy te kolumny, które mają nazwy postaci "woe.XXXX
 # AIC (Akaike Information Criterion) to miara oceny jakości modelu statystycznego. 
 # Niższa wartość AIC wskazuje na lepszą jakość modelu.
 
-# 1) 10 najistotniejszych w bucket (l.142)
+# 1) 10 najistotniejszych w bucket
 IV_max_10 <- bucket[1:10, ]
 zmienne_objasniajace <- paste("woe.", IV_max_10[,1], ".binned", sep = "")
 
@@ -188,5 +187,4 @@ summary(model_min)$aic
 
 
 # 3) wybór użytkownika
-
 
