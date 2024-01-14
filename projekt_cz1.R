@@ -195,7 +195,6 @@ summary(model_min)$aic
 # 3) wybór użytkownika
 
 
-
 # GINI, AUC, ROC
 
 #Im wyżej znajduje się krzywa ROC, tym lepszy model.
@@ -205,9 +204,9 @@ library(randomForest)
 library(pROC)
 library(ggplot2)
 
-rysuj_ROC <- function(model){
+rysuj_ROC <- function(rzeczywiste_wart, model){
   prawdopodobienstwa <- predict(model, type = "response")
-  roc_curve <- roc(proba_train_2$DEFAULT, prawdopodobienstwa)
+  roc_curve <- roc(rzeczywiste_wart, prawdopodobienstwa)
   roc_data <- coords(roc_curve, "all")
   
   auc_value <- auc(roc_curve)
@@ -225,5 +224,5 @@ rysuj_ROC <- function(model){
     theme_minimal()
 }
 
-rysuj_ROC(model_max)
-rysuj_ROC(model_min)
+rysuj_ROC(proba_train_2$DEFAULT, model_max)
+rysuj_ROC(proba_train_2$DEFAULT, model_min)
