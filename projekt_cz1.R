@@ -169,29 +169,7 @@ colnames(proba_train_2) #chcemy te kolumny, które mają nazwy postaci "woe.XXXX
 # AIC (Akaike Information Criterion) to miara oceny jakości modelu statystycznego. 
 # Niższa wartość AIC wskazuje na lepszą jakość modelu.
 
-# 1) 10 najistotniejszych w bucket
-IV_max_10 <- bucket[1:10, ]
-zmienne_objasniajace <- paste("woe.", IV_max_10[,1], ".binned", sep = "")
 
-model_max = glm(DEFAULT ~ ., 
-                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
-
-summary(model_max)
-summary(model_max)$deviance
-summary(model_max)$aic
-
-# 2) 10 najmniej istotnych 
-IV_min_10 <- bucket[(length(bucket[,1])-9):length(bucket[,1]), ]
-zmienne_objasniajace <- paste("woe.", IV_min_10[,1], ".binned", sep = "")
-
-model_min = glm(DEFAULT ~ ., 
-                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
-
-summary(model_min)
-summary(model_min)$deviance
-summary(model_min)$aic
-
-# 3) 10 losowych zmiennych 
 
 # Mniej więcej taka funkcja ogólnie do tworzenia modelu: 
 buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to wektor nazw kolumn
@@ -200,6 +178,37 @@ buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to 
               data = dane_train[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = waga)
   
 }
+
+# 1) 10 najistotniejszych w bucket
+
+IV_max_10 <- bucket[1:10, ]
+
+#zmienne_objasniajace <- paste("woe.", IV_max_10[,1], ".binned", sep = "")
+#model_max = glm(DEFAULT ~ ., 
+#                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
+
+model_max <- buduj_model(proba_train_2, IV_max_10[, 1] , def_waga)
+
+summary(model_max)
+summary(model_max)$deviance
+summary(model_max)$aic
+
+# 2) 10 najmniej istotnych 
+
+IV_min_10 <- bucket[(length(bucket[,1])-9):length(bucket[,1]), ]
+
+#zmienne_objasniajace <- paste("woe.", IV_min_10[,1], ".binned", sep = "")
+
+#model_min = glm(DEFAULT ~ ., 
+#                data = proba_train_2[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = def_waga)
+
+
+model_min <- buduj_model(proba_train_2, IV_min_10[, 1], def_waga)
+summary(model_min)
+summary(model_min)$deviance
+summary(model_min)$aic
+
+# 3) 10 losowych zmiennych 
 
 losowe_kolumny <- sample(bucket[, 1], 10)
 
