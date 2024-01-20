@@ -285,3 +285,14 @@ ggplot(procenty_dochod, aes(x = Dochod_kat, y = Procent, fill = factor(Wnioskowa
       x = "Dochód", y = "Procent") +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
+
+#wykres kołowy rozkładu województwa
+dane %>%
+  count(WOJEWODZTWO) %>%
+  mutate(Procentowy_udzial = n / sum(n) * 100) %>%
+  ggplot(aes(x = "", y = Procentowy_udzial, fill = WOJEWODZTWO, label = sprintf("%.1f%%", Procentowy_udzial))) +
+  geom_bar(stat = "identity", width = 1) +
+  geom_text(position = position_stack(vjust = 0.4), size = 3, angle = 45) +
+  coord_polar(theta = "y") +
+  labs(title = "Udział województw", x = "", y = "") +
+  theme_void()
