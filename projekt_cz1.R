@@ -267,4 +267,7 @@ procenty <- dane %>%
 ggplot(procenty, aes(x = WYKSZTAlCENIE, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
   geom_bar(stat = "identity", position = "stack") +
   labs(title = "Procentowy rozkład Wnioskowanej kwoty w zależności od wykształcenia", 
-       x = "Wykształcenie", y = "Procent")
+       x = "Wykształcenie", y = "Procent")+
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +# Formatowanie osi Y jako procentowej
+  scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
+
