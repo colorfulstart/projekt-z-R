@@ -256,3 +256,15 @@ rysuj_ROC(proba_train_2$DEFAULT, model_max)
 rysuj_ROC(proba_train_2$DEFAULT, model_min)
 rysuj_ROC(proba_train_2$DEFAULT, model_random)
 rysuj_ROC(proba_train_2$DEFAULT, model_uzytkownika)
+
+#wykres procentowy rozkładu wykształcenia do wnioskowanej kwoty
+procenty <- dane %>%
+  group_by(WYKSZTAlCENIE, Wnioskowana_kw_kat) %>%
+  summarise(Liczba = n()) %>%
+  group_by(WYKSZTAlCENIE) %>%
+  mutate(Procent = Liczba / sum(Liczba) * 100)
+
+ggplot(procenty, aes(x = WYKSZTAlCENIE, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Procentowy rozkład Wnioskowanej kwoty w zależności od wykształcenia", 
+       x = "Wykształcenie", y = "Procent")
