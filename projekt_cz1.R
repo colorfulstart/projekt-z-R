@@ -257,6 +257,7 @@ rysuj_ROC(proba_train_2$DEFAULT, model_min)
 rysuj_ROC(proba_train_2$DEFAULT, model_random)
 rysuj_ROC(proba_train_2$DEFAULT, model_uzytkownika)
 
+
 #wykres procentowy rozkładu wykształcenia do wnioskowanej kwoty
 procenty <- dane %>%
   group_by(WYKSZTAlCENIE, Wnioskowana_kw_kat) %>%
@@ -268,6 +269,19 @@ ggplot(procenty, aes(x = WYKSZTAlCENIE, y = Procent, fill = factor(Wnioskowana_k
   geom_bar(stat = "identity", position = "stack") +
   labs(title = "Procentowy rozkład Wnioskowanej kwoty w zależności od wykształcenia", 
        x = "Wykształcenie", y = "Procent")+
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +# Formatowanie osi Y jako procentowej
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
 
+#wykres procentowy rozkładu dochodu od wnioskowanej kwoty
+procenty_dochod <- dane %>%
+  group_by(Dochod_kat, Wnioskowana_kw_kat) %>%
+  summarise(Liczba = n()) %>%
+  group_by(Dochod_kat) %>%
+  mutate(Procent = Liczba / sum(Liczba) * 100)
+
+ggplot(procenty_dochod, aes(x = Dochod_kat, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Procentowy rozkład dochodu w zależności od wykształcenia",
+      x = "Dochód", y = "Procent") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
