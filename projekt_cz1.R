@@ -273,7 +273,7 @@ procenty_dochod <- dane %>%
 
 ggplot(procenty_dochod, aes(x = Dochod_kat, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
   geom_bar(stat = "identity", position = "stack") +
-  labs(title = "Procentowy rozkład dochodu w zależności od wykształcenia",
+  labs(title = "Procentowy rozkład dochodu w zależności od Wnioskowanej kwoty",
        x = "Dochód", y = "Procent") +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   scale_fill_discrete(name = "Wnioskowana kwota")
