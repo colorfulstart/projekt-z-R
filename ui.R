@@ -16,6 +16,34 @@ Poniżej możesz wybrać dowolną ilość cech, która według Ciebie jest najba
                column(12, selectInput("kolumny_uzytkownik", "Wybierz kolumny:", choices = column_names, multiple = TRUE)),
                column(12, plotOutput("roc_plot")),
                column(12, verbatimTextOutput("wyniki_modelu"))
-             ))
+             )),
+    
+    tabPanel("IV 10 zmiennych",
+             fluidRow(
+               column(4, 
+                      h3("Najlepsze dopasowanie"),
+                      dataTableOutput("IV_10_max_output")),
+               column(4, 
+                      h3("Losowy wybór zmiennych"),
+                      dataTableOutput("IV_10_los_output")),
+               column(4, 
+                      h3("Najgorsze dopasowanie"),
+                      dataTableOutput("IV_10_min_output")),
+               
+               column(4,
+                      verbatimTextOutput("znaczace_max")),
+               column(4,
+                      verbatimTextOutput("znaczace_los")),
+               column(4,
+                      verbatimTextOutput("znaczace_min")),
+               
+               column(4,
+                      plotOutput("roc_plot_max")),
+               column(4,
+                      plotOutput("roc_plot_los")),
+               column(4,
+                      plotOutput("roc_plot_min"))
+             )
+    )
   )
 )
