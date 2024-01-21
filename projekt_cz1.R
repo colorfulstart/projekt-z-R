@@ -6,7 +6,7 @@ library(randomForest)
 library(pROC)
 library(ggplot2)
 library(woeBinning)
-
+library(dplyr)
 
 dane = read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
                     props = ParquetArrowReaderProperties$create())
