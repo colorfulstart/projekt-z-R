@@ -89,7 +89,7 @@ kwantyle <- quantile(dane$Dochod, probs = seq(0.2, 1, by = 0.2))
 przedzialy_kwotowe <- c(-1, 2800, 3800, 4700, 9800, 20000, Inf) #przybliżam do pełnych, "ładnych" kwot :)
 
 # Tworzenie kategorii dochodu na podstawie przedziałów
-X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c("[0 ; 2800)", "[2800 ; 3800)", "[3800 ; 4700)", "[4700 ; 9800)", "[9800 ; 20000)", "20000+")
+X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c("[0 ; 2800)", "[2800 ; 3800)", "[3800 ; 4700)", "[4700 ; 9800)", "[9800 ; 20000)", "20000+"))
 
 # Stopnie dochodu: 1 - "0-2800", 2 - "2800-3800", 3 - "3800-4700", 4 - "4700-9800", 5 - "9800-20000", 6 - "20000+"
 
@@ -111,7 +111,7 @@ dane$Wnioskowana_kw_kat <- X
 
 
 #usuwanie kolumn które zostały przekształone na inne (Dochod)
-dane <- subset(dane, select = Dochod)
+dane <- subset(dane, select = -Dochod)
 
 # Usunięcie kolumn, gdzie jest najwięcej NA
 
@@ -288,3 +288,4 @@ dane %>%
   coord_polar(theta = "y") +
   labs(title = "Udział województw", x = "", y = "") +
   theme_void()
+
