@@ -2,6 +2,7 @@ server = function(input, output) {
   output[["summary"]] = renderDT({
     dane 
     })
+  
   output[["one_var_plot"]] = renderPlot({
     one_var_plot = ggplot(dane, aes_string(x = input[["one_var"]])) +
       theme_bw() +
@@ -11,5 +12,15 @@ server = function(input, output) {
     } else {
       one_var_plot + geom_bar(fill='lightblue', fill='black')
     }
+  })
+  
+  model_uzytkownika <- reactive({
+    buduj_model(proba_train_2, input[["kolumny_uzytkownik"]], def_waga)
+  })
+  
+  output[["roc_plot"]] = renderPlot({
+    model <- model_uzytkownika()
+    rysuj_ROC(proba_train_2$DEFAULT, model)
+    
   })
 }
