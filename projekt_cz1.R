@@ -289,3 +289,31 @@ dane %>%
   labs(title = "Udział województw", x = "", y = "") +
   theme_void()
 
+
+#funkcja do obliczania prawdopodobieństwa otrzymania DEFAULTa
+wylicz_zero_jeden <- function(war_wnioskowana_kwota, war_dochod, 
+                              war_wyksztalcenie, war_sektor){
+  sortowanie <- dane %>% filter(Wnioskowana_kw_kat == war_wnioskowana_kwota,
+                                Dochod_kat == war_dochod,
+                                WYKSZTAlCENIE == war_wyksztalcenie,
+                                SEKTOR==war_sektor) 
+  podzial <- sortowanie %>% 
+    group_by(DEFAULT) %>% 
+    summarize(sum_default = n())
+  if(is.na(podzial$sum_default[1])){
+    zero <- 0
+  }
+  else{zero <- podzial$sum_default[1]}
+  
+  if(is.na(podzial$sum_default[2])){
+    jeden <- 0
+  }
+  else{jeden <- podzial$sum_default[2]}
+  
+  if(nrow(sortowanie)==0){
+    return("Dostępne dane nie umożliwiają nam podać odpowiedzi.")
+  }
+  else{
+    return(zero/nrow(sortowanie)*100)
+  }
+}
