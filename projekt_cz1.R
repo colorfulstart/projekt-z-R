@@ -95,14 +95,6 @@ X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c("[0 ; 2800)", "[2800 ; 3800
 
 dane$Dochod_kat <- X
 
-# Wielkość zatrudnienia - kategorie 
-unique(dane$WIELKOSC_ZATRUD)
-
-dane$Wielk_zatr_kat <- ifelse(dane$WIELKOSC_ZATRUD == "[0 ; 3]", 1,
-                              ifelse(dane$WIELKOSC_ZATRUD == "[4 ; 29]", 2,
-                                     ifelse(dane$WIELKOSC_ZATRUD == "[30 ; 59]", 3,
-                                            ifelse(dane$WIELKOSC_ZATRUD == "[60 ; 119]", 4, 5))))
-
 # Wnioskowana kwota - przedziały i kategorie
 min(dane$WNIOSKOWANA_KWOTA)
 max(dane$WNIOSKOWANA_KWOTA)
@@ -118,12 +110,12 @@ X <- cut(dane$WNIOSKOWANA_KWOTA, przedzialy_kwotowe, labels = c("[0 ; 3000)", "[
 dane$Wnioskowana_kw_kat <- X
 
 
-#usuwanie kolumn które zostały przekształone na inne (Dochod i WIELKOSC_ZATRUD)
-dane <- subset(dane, select = -c(Dochod, WIELKOSC_ZATRUD))
+#usuwanie kolumn które zostały przekształone na inne (Dochod)
+dane <- subset(dane, select = Dochod)
 
 # Usunięcie kolumn, gdzie jest najwięcej NA
 
-ilosc_NA <- colSums(is.na(dane[,17:ncol(dane)])) #wcześniej oczyszczone
+ilosc_NA <- colSums(is.na(dane[,16:ncol(dane)])) #wcześniej oczyszczone
 
 kolumny_z_NA <- names(sort(ilosc_NA, decreasing=TRUE))[1:5] #Sortowanie wyników i wybieranie nazw 5 kolumn z największą ilością NA
 
