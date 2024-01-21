@@ -23,4 +23,11 @@ server = function(input, output) {
     rysuj_ROC(proba_train_2$DEFAULT, model)
     
   })
+  
+  output[["wyniki_modelu"]] = renderText({
+    model <- model_uzytkownika()
+    deviance <- summary(model)$deviance
+    aic <- summary(model)$aic
+    paste("Deviance:", deviance, "\nAic: ", aic)
+  })
 }
