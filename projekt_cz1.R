@@ -2,6 +2,11 @@
 
 library(arrow)
 library(lubridate)
+library(randomForest)
+library(pROC)
+library(ggplot2)
+library(woeBinning)
+
 
 dane = read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
                     props = ParquetArrowReaderProperties$create())
@@ -141,7 +146,6 @@ proba_train = dane[ind,]
 proba_test = dane[-ind,]
 
 #Statystyki WOE i IV 
-library(woeBinning)
 
 bucket = woe.binning(proba_train, 'DEFAULT', proba_train, stop.limit = 0, min.perc.total = 0.1)
 
@@ -227,10 +231,6 @@ model_uzytkownika <- buduj_model(proba_train_2, c("TYP_PRACODAWCY", "ZAWOD_WYKON
 
 #Im wyżej znajduje się krzywa ROC, tym lepszy model.
 #Im większe AUC i Gini, tym lepsza zdolność modelu do rozróżniania klas.
-
-library(randomForest)
-library(pROC)
-library(ggplot2)
 
 rysuj_ROC <- function(rzeczywiste_wart, model){
   prawdopodobienstwa <- predict(model, type = "response")
