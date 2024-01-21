@@ -259,10 +259,10 @@ procenty <- dane %>%
 
 ggplot(procenty, aes(x = WYKSZTAlCENIE, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
   geom_bar(stat = "identity", position = "stack") +
-  labs(title = "Procentowy rozkład Wnioskowanej kwoty w zależności od wykształcenia", 
+  labs(title = "Procentowy rozkład Wykształcenia w zależności od Wnioskowanej kwoty", 
        x = "Wykształcenie", y = "Procent")+
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
+  scale_fill_discrete(name = "Wnioskowana kwota")
 
 #wykres procentowy rozkładu dochodu od wnioskowanej kwoty
 procenty_dochod <- dane %>%
@@ -274,9 +274,9 @@ procenty_dochod <- dane %>%
 ggplot(procenty_dochod, aes(x = Dochod_kat, y = Procent, fill = factor(Wnioskowana_kw_kat))) +
   geom_bar(stat = "identity", position = "stack") +
   labs(title = "Procentowy rozkład dochodu w zależności od wykształcenia",
-      x = "Dochód", y = "Procent") +
+       x = "Dochód", y = "Procent") +
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-  scale_fill_discrete(name = "Wnioskowana kwota", labe = c("0-3000", "3000-5000", "5000-10100", "10100-26000", "26000+"))
+  scale_fill_discrete(name = "Wnioskowana kwota")
 
 #wykres kołowy rozkładu województwa
 dane %>%
