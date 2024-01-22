@@ -45,4 +45,16 @@ server = function(input, output) {
     tabela
   })
   
+  output[["znaczace_max"]] = renderText({
+    paste("Deviance:", round(max_1_znaczaca,2), "AIC: ", round(max_2_znaczaca,2))
+  })
+  
+  output[["znaczace_min"]] = renderText({
+    paste("Deviance:", round(min_1_znaczaca,2), "AIC: ", round(min_2_znaczaca,2))
+  })
+  
+  output[["znaczace_los"]] = renderText({
+    paste("Deviance:", round(los_1_znaczaca,2), "AIC: ", round(los_2_znaczaca,2))
+  })
+  
 }
