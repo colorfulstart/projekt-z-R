@@ -8,9 +8,9 @@ library(ggplot2)
 library(woeBinning)
 library(dplyr)
 
-dane = read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
+dane <- read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
                     props = ParquetArrowReaderProperties$create())
-dane = as.data.frame(dane)
+dane <- as.data.frame(dane)
 dane_oryg <- dane
 
 ### OCZYSZCZANIE DANYCH ### 
@@ -86,7 +86,7 @@ proba_train = dane[ind,]
 proba_test = dane[-ind,]
 
 #Statystyki WOE i IV 
-bucket = woe.binning(proba_train, 'DEFAULT', proba_train, stop.limit = 0, min.perc.total = 0.1)
+bucket <- woe.binning(proba_train, 'DEFAULT', proba_train, stop.limit = 0, min.perc.total = 0.1)
 
 ### BUDOWA MODELU ###
 
@@ -106,7 +106,7 @@ colnames(proba_train_2) #chcemy te kolumny, które mają nazwy postaci "woe.XXXX
 # Mniej więcej taka funkcja ogólnie do tworzenia modelu: 
 buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to wektor nazw kolumn
   zmienne_objasniajace <- paste("woe.", wybrane_kolumny, ".binned", sep = "")
-  model = glm(DEFAULT ~ ., 
+  model <- glm(DEFAULT ~ ., 
               data = dane_train[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = waga)
 }
 
