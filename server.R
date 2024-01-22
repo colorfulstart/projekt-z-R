@@ -30,4 +30,19 @@ server = function(input, output) {
     aic <- summary(model)$aic
     paste("Deviance:", deviance, "\nAic: ", aic)
   })
+  
+  output[["IV_10_max_output"]] = renderDataTable({
+    IV_max_10[,1, drop=FALSE]
+  })
+  
+  output[["IV_10_min_output"]] = renderDataTable({
+    IV_min_10[,1, drop=FALSE]
+  })
+  
+  output[["IV_10_los_output"]] = renderDataTable({
+    tabela = t(data.frame(losowe_kolumny))
+    rownames(tabela) = c()
+    tabela
+  })
+  
 }
