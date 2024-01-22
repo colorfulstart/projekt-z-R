@@ -57,4 +57,15 @@ server = function(input, output) {
     paste("Deviance:", round(los_1_znaczaca,2), "AIC: ", round(los_2_znaczaca,2))
   })
   
+  output[["roc_plot_max"]] = renderPlot({
+    rysuj_ROC(proba_train_2$DEFAULT, model_max)
+  })
+  
+  output[["roc_plot_min"]] = renderPlot({
+    rysuj_ROC(proba_train_2$DEFAULT, model_min)
+  })
+  
+  output[["roc_plot_los"]] = renderPlot({
+    rysuj_ROC(proba_train_2$DEFAULT, model_los)
+  })
 }
