@@ -1,5 +1,5 @@
 server = function(input, output) {
-  output[["summary"]] = renderDT({
+  output[["summary"]] = renderDataTable({
     dane 
     })
   
@@ -67,5 +67,16 @@ server = function(input, output) {
   
   output[["roc_plot_los"]] = renderPlot({
     rysuj_ROC(proba_train_2$DEFAULT, model_los)
+  })
+  
+  observeEvent(input$sprawdz, {
+    output[["wynik"]] = renderText({
+      wylicz_zero_jeden(
+        war_wnioskowana_kwota = input$wnioskowana_kwota,
+        war_dochod = input$dochod, 
+        war_wyksztalcenie = input$wyksztalcenie,
+        war_sektor = input$sektor
+      )
+    })
   })
 }
