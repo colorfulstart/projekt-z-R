@@ -8,9 +8,9 @@ library(pROC)
 library(ggplot2)
 library(dplyr)
 
-dane = read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
+dane <- read_parquet("Lista4_dane.parquet", col_select = NULL, as_data_frame = TRUE, 
                     props = ParquetArrowReaderProperties$create())
-dane = as.data.frame(dane)
+dane <- as.data.frame(dane)
 dane_oryg <- dane
 dane <- subset(dane, select = -c(BIK_BANKLiczbaZap2_11m, BIK_PSNLiczbaZap11m, BIK_BANKSaldoNalWymagKred, BIK_PSNNajgorszyHistStatusKred,
                                  CAR_SredLiczbaDniPrzekLim13_24m, CAR_SredLiczbaDniPrzekLim12m, CAR_SredWykOV1m, CAR_LiczbaTrans30dni,
@@ -38,14 +38,13 @@ dane <- dane[!(dane$WOJEWODZTWO == "X"), ]
 dane <- dane[!(dane$MIESIACE_ZATRUDNIENIA < 0 & !is.na(dane$MIESIACE_ZATRUDNIENIA)), ]
 kwantyle <- quantile(dane$Dochod, probs = seq(0.2, 1, by = 0.2))
 przedzialy_kwotowe <- c(-1, 2800, 3800, 4700, 9800, 20000, Inf) 
-X <- cut(dane$Dochod, przedzialy_kwotowe, labels = c("[0 ; 2800)", "[2800 ; 3800)", "[3800 ; 4700)", "[4700 ; 9800)", "[9800 ; 20000)", "20000+"))
-dane$Dochod_kat <- X
+dane$Dochod_kat <- cut(dane$Dochod, przedzialy_kwotowe, labels = c("[0 ; 2800)", "[2800 ; 3800)", "[3800 ; 4700)", "[4700 ; 9800)", "[9800 ; 20000)", "20000+"))
+ 
 
 kwantyle <- quantile(dane$WNIOSKOWANA_KWOTA, probs = seq(0.2, 1, by = 0.2))
 przedzialy_kwotowe <- c(-1, kwantyle[-length(kwantyle)], Inf) 
 
-X <- cut(dane$WNIOSKOWANA_KWOTA, przedzialy_kwotowe, labels = c("[0 ; 3000)", "[3000 ; 5000)", "[5000 ; 10100)", "[10100 ; 26000)", "26000+"))
-dane$Wnioskowana_kw_kat <- X
+dane$Wnioskowana_kw_kat <- cut(dane$WNIOSKOWANA_KWOTA, przedzialy_kwotowe, labels = c("[0 ; 3000)", "[3000 ; 5000)", "[5000 ; 10100)", "[10100 ; 26000)", "26000+"))
 dane <- subset(dane, select = -Dochod)
 ilosc_NA <- colSums(is.na(dane[,16:ncol(dane)]))
 
@@ -72,7 +71,7 @@ def_waga <- ifelse(as.numeric(proba_train_2$DEFAULT) == 0, 1, 10)
 ###@## od tego miejsca chyba już w funkcjach
 buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to wektor nazw kolumn
   zmienne_objasniajace <- paste("woe.", wybrane_kolumny, ".binned", sep = "")
-  model = glm(DEFAULT ~ ., 
+  model <- glm(DEFAULT ~ ., 
               data = dane_train[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = waga)
   
 }
