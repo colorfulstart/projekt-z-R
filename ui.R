@@ -48,7 +48,7 @@ Poniżej możesz wybrać dowolną ilość cech, która według Ciebie jest najba
     
     tabPanel("Szansa na dostanie kredytu",
              fluidRow(
-               column(12, h3("NAPIS JAKIŚ", style = "font-size: 15px;")),
+               column(12, h3("Na podstawie dotychczasowych danych zebranych przez nasz bank jesteśmy w stanie oszacować Twoje prawdopodobieństwo na uzyskanie kredytu. Po wybraniu odpowiednich wartości i wybraniu przycisku 'Sprawdź'.", style = "font-size: 15px;")),
                sidebarLayout(
                  sidebarPanel(
                    selectInput("wnioskowana_kwota", "Wnioskowana kwota:", choices = unique(dane$Wnioskowana_kw_kat)),
