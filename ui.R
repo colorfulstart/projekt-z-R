@@ -12,7 +12,7 @@ ui = fluidPage(
     tabPanel("Modelowanie",
              fluidRow(
                column(12, h3("Wartość informacyjna (IV) jest miarą stosowaną w scoringu kredytowym do oceny mocy predykcyjnej zmiennej. Określa, jak dobrze zmienna może przewidzieć zmienną docelową. Wartość IV jest często obliczana dla każdej zmiennej.
-Poniżej możesz wybrać dowolną ilość cech, która według Ciebie jest najbardziej znacząca przy tworzeniu modelu. Chcesz aby pole pod krzywą ROC było możliwie największe, a otrzymane statystyki deviance i Aic jak najmniejsze.", style = "font-size: 15px;")),
+Poniżej możesz wybrać dowolną ilość cech, która według Ciebie jest najbardziej znacząca przy tworzeniu modelu. Chcesz, aby pole pod krzywą ROC było możliwie największe, a otrzymane statystyki Deviance i AIC jak najmniejsze.", style = "font-size: 15px;")),
                column(12, selectInput("kolumny_uzytkownik", "Wybierz kolumny:", choices = column_names_bez_default, multiple = TRUE)),
                column(12, plotOutput("roc_plot")),
                column(12, verbatimTextOutput("wyniki_modelu"))
@@ -48,7 +48,7 @@ Poniżej możesz wybrać dowolną ilość cech, która według Ciebie jest najba
     
     tabPanel("Szansa na dostanie kredytu",
              fluidRow(
-               column(12, h3("Na podstawie dotychczasowych danych zebranych przez nasz bank jesteśmy w stanie oszacować Twoje prawdopodobieństwo na uzyskanie kredytu. Po wybraniu odpowiednich wartości i wybraniu przycisku 'Sprawdź'.", style = "font-size: 15px;")),
+               column(12, h3("Na podstawie dotychczasowych danych zebranych przez nasz bank jesteśmy w stanie oszacować Twoje prawdopodobieństwo na uzyskanie kredytu. Po wybraniu odpowiednich wartości kliknij przycisk 'Sprawdź'.", style = "font-size: 15px;")),
                sidebarLayout(
                  sidebarPanel(
                    selectInput("wnioskowana_kwota", "Wnioskowana kwota:", choices = unique(dane$Wnioskowana_kw_kat)),
