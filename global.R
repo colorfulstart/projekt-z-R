@@ -69,7 +69,7 @@ proba_test_2 = woe.binning.deploy(proba_test, bucket, add.woe.or.dum.var = 'woe'
 def_waga <- ifelse(as.numeric(proba_train_2$DEFAULT) == 0, 1, 10)
 
 ###@## od tego miejsca chyba już w funkcjach
-buduj_model <- function(dane_train, wybrane_kolumny, waga){ #wybrane_kolumny to wektor nazw kolumn
+buduj_model <- function(dane_train, wybrane_kolumny, waga){
   zmienne_objasniajace <- paste("woe.", wybrane_kolumny, ".binned", sep = "")
   model <- glm(DEFAULT ~ ., 
               data = dane_train[, c("DEFAULT", zmienne_objasniajace)], family = binomial, weights = waga)
@@ -138,7 +138,7 @@ wylicz_zero_jeden <- function(war_wnioskowana_kwota, war_dochod,
   else{jeden <- podzial$sum_default[2]}
   
   if(nrow(sortowanie)==0){
-    return("Dostępne dane nie umożliwiają nam podać odpowiedzi.")
+    return("Dostępne dane nie umożliwiają nam podania odpowiedzi.")
   }
   else{
     return(paste('Twoja szansa na dostanie kredytu wynosi:', round(zero/nrow(sortowanie)*100,2), 'procent.'))
